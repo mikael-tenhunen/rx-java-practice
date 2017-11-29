@@ -11,8 +11,6 @@ import rx.schedulers.Schedulers;
 import util.Log;
 
 public class SlowProducer {
-	Random random = new Random();
-
 	public static int calculate(int seed) {
 		Random random = new Random(seed);
 		int sleepTime = random.nextInt(4000);

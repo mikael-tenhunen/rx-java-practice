@@ -14,7 +14,9 @@ public class Solution {
 	}
 
 	/*
-	 * poolA: onSubscribe poolB: mellanresultat poolC: onEvent
+	 * poolA: onSubscribe 
+	 * poolB: mellanresultat 
+	 * poolC: onEvent
 	 */
 	public static void main(String[] args) {
 		ExecutorService poolA = Executors.newFixedThreadPool(4);
