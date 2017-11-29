@@ -25,18 +25,33 @@ public class SlowProducer {
 			return 0;
 		}
 	}
+	
+	public static Observable<Integer> deferredCalculation(int seed) {
+		return Observable.fromCallable(() -> calculate(seed));
+	}
 
+	/*
+	 * poolA: onSubscribe 
+	 * poolB: intermediate result 
+	 * poolC: onEvent (FLÖRP)
+	 * 
+	 * Få alla beräkningar att köras samtidigt
+	 * 
+	 */
 	public static void main(String[] args) {
-		ExecutorService poolA = Executors.newFixedThreadPool(10);
-		ExecutorService poolB = Executors.newFixedThreadPool(10); 
-		ExecutorService poolC = Executors.newFixedThreadPool(10); 
+		ExecutorService poolA = Executors.newFixedThreadPool(4);
+		ExecutorService poolB = Executors.newFixedThreadPool(4);
+		ExecutorService poolC = Executors.newFixedThreadPool(4);
+
 		
-		Observable.just(1, 2, 3, 4, 5, 6, 7, 8)
-			.map(seed -> SlowProducer.calculate(seed))
-			.subscribeOn(Schedulers.from(poolA))
-			.subscribe(
-					x -> log("Got:" + x), 
-					e -> e.printStackTrace(), 
-					() -> log("Completed"));
+		Observable.just(1, 2, 3, 4)
+		.map(seed -> SlowProducer.calculate(seed))
+		.doOnNext(result -> log("intermediate result=" + result))
+		.map(result -> result + "FLÖRP")
+		.subscribe(
+				x -> log("Got:" + x), 
+				e -> e.printStackTrace(), 
+				() -> log("Completed"));
+		
 	}
 }
