@@ -30,7 +30,7 @@ public class Solution {
 					})
 				.observeOn(Schedulers.from(poolB))
 				.doOnNext(result -> log("intermediate result=" + result))
-				.map(result -> result + "FLÃ–RP")
+				.map(result -> result + "FLÖRP")
 				.observeOn(Schedulers.from(poolC))
 				.subscribe(
 						x -> log("Got:" + x), 
