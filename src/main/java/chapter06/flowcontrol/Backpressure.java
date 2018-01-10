@@ -21,7 +21,7 @@ public class Backpressure {
 			}
 			subscriber.onCompleted();
 		};
-		return Observable.unsafeCreate(onSubscribeMyRange);
+		return Observable.create(onSubscribeMyRange);
 	}
 	
 	public static void main(String[] args) {
@@ -39,7 +39,7 @@ public class Backpressure {
 		LinkedBlockingQueue<Integer> boundedQueue = new LinkedBlockingQueue<>(10);
 		
 		myRange(1, 100)
-			.onBackpressureBuffer()
+//			.onBackpressureBuffer()
 			.doOnNext(n -> System.out.println(n + " emitted"))
 			.observeOn(Schedulers.io())
 			.subscribe(new Subscriber<Integer>() {
